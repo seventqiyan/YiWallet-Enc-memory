@@ -1,9 +1,9 @@
 
 #define _UID_C_
 #include "UID.h"
-#include "Utils.h"
-#include <Arduino.h>
 #include <string.h>
+
+static UID uid;
 
 UID::UID()
 {
@@ -13,6 +13,11 @@ UID::UID()
 UID::~UID()
 {
 
+}
+
+static UID* UID::instance()
+{
+    return &uid;
 }
 
 // void UID::setID(uint8_t *data)
@@ -70,9 +75,10 @@ void UID::resetUID()
     Utils::instance()->getChipID(id, DEV_ID_LEN);
     calcPIN();
 
-    Utils::instance()->printf("UID:");
+    Utils::instance()->printf("resetUID(): ");
+    Utils::instance()->printf("UID: ");
     Utils::instance()->dumpBuffer(id, DEV_ID_LEN);
-    Utils::instance()->printf("PIN");
+    Utils::instance()->printf("PIN: ");
     Utils::instance()->dumpBuffer(pin, DEV_PIN_LEN);
 }
 

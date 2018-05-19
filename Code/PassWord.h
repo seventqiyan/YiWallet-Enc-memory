@@ -2,7 +2,7 @@
 #ifndef _PASSWORD_H_
 #define _PASSWORD_H_
 
-#include "config.h"
+#include "Config.h"
 
 #define PASSWORD_LEN   (16)
 

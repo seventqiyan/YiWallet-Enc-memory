@@ -1,0 +1,48 @@
+
+
+void aes_test()
+{
+    AES *aes;
+    unsigned long now, delta;
+    aes = new AES(key);
+
+    Serial.print("\n");
+    int i, j, k;
+    for (i = 0; i < 11; i++) {
+        for (j = 0; j < 4; j++) {
+            for (k = 0; k < 4; k++) {
+                Serial.print(aes->w[i][j][k], HEX);
+                Serial.print(" ");
+            }
+        }
+        Serial.print("\n");
+    }
+    // aes->initKey(key);
+    Serial.println("\nThe plain txt is: ");
+    for (int i = 0; i < 16; i++) {
+        Serial.print(txt_plain[i], HEX);
+        Serial.print(" ");
+    }
+
+    now = micros();
+    aes->encrypt(txt_plain);
+    delta = micros() - now;
+    Serial.print("\nEncrypt times = ");
+    Serial.print(delta, DEC);
+    Serial.println("\nThe encrypt txt is: ");
+    for (int i = 0; i < 16; i++) {
+        Serial.print(txt_plain[i], HEX);
+        Serial.print(" ");
+    }
+
+    now = micros();
+    aes->decrypt(txt_plain);
+    delta = micros() - now;
+    Serial.print("\n\nDecrypt Times = ");
+    Serial.print(delta, DEC);
+    Serial.println("\nThe plain txt is: ");
+    for (int i = 0; i < 16; i++) {
+        Serial.print(txt_plain[i], HEX);
+        Serial.print(" ");
+    }
+}

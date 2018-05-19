@@ -3,7 +3,7 @@
 #ifndef _UID_H_
 #define _UID_H_
 
-#include "config.h"
+#include "Config.h"
 
 #define DEV_ID_LEN       (10)
 #define DEV_PIN_LEN      (6)
@@ -13,6 +13,8 @@ class UID
 public:
     UID();
     ~UID();
+
+    static UID* instance();
 
     // void setID(uint8_t *data);
     // void setPIN(uint8_t *data);

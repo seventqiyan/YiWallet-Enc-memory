@@ -1,7 +1,20 @@
+/*******************************************************************************
+ *
+ *   Copyright (c) 2018 www.yiwallet.top. All rights reserved.
+ *
+ * @file AES.h
+ *
+ * @brief:
+ *     AES加密算法接口类定义
+ *
+ * @author Zhaingbo zhaingbo@foxmail.com
+ * @date 19.05.2018
+ *
+ ******************************************************************************/
 #ifndef _AES_H_
 #define _AES_H_
 
-#include <stdint.h>
+#include "Config.h"
 
 class AES
 {

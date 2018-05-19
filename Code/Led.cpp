@@ -1,4 +1,16 @@
-
+/*******************************************************************************
+ *
+ *   Copyright (c) 2018 www.yiwallet.top. All rights reserved.
+ *
+ * @file Led.cpp
+ *
+ * @brief:
+ *     LED驱动实现
+ *
+ * @author Zhaingbo zhaingbo@foxmail.com
+ * @date 19.05.2018
+ *
+ ******************************************************************************/
 #define _LED_C_
 #include "Led.h"
 

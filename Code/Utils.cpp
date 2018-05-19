@@ -1,5 +1,17 @@
-
-#include "utils.h"
+/*******************************************************************************
+ *
+ *   Copyright (c) 2018 www.yiwallet.top. All rights reserved.
+ *
+ * @file Utils.cpp
+ *
+ * @brief:
+ *     通用工具实现
+ *
+ * @author Zhaingbo zhaingbo@foxmail.com
+ * @date 19.05.2018
+ *
+ ******************************************************************************/
+#include "Utils.h"
 #include <Arduino.h>
 #include <avr/boot.h>
 #include <stdarg.h>
@@ -42,20 +54,20 @@ void Utils::getChipID(uint8_t *id, int len)
     }
 }
 
-uint8_t Utils::checkXor(uint8_t *data, size_t len)
+uint8_t Utils::checkXor(uint8_t *data, int len)
 {
     uint8_t _xor = 0xFF;
-    for (size_t i = 0; i < len; i++) {
+    for (int i = 0; i < len; i++) {
         _xor = _xor ^ data[i];
     }
 
     return _xor;
 }
 
-uint8_t Utils::checkSum(uint8_t *data, size_t len)
+uint8_t Utils::checkSum(uint8_t *data, int len)
 {
     uint8_t sum = 0;
-    for (size_t i = 0; i < len; i++) {
+    for (int i = 0; i < len; i++) {
         sum += data[i];
     }
 
@@ -77,10 +89,9 @@ uint8_t Utils::charToHex(uint8_t ch)
     return ch;
 }
 
-void Utils::dumpBuffer(uint8_t *data, size_t len)
+void Utils::dumpBuffer(uint8_t *data, int len)
 {
 #ifdef ZDEBUG
-    Serial.print(F("\n[DBG]"));
     for (uint8_t i = 0; i < len; i++) {
         Serial.print(data[i]/16, HEX);
         Serial.print(data[i]%16, HEX);
@@ -91,17 +102,17 @@ void Utils::dumpBuffer(uint8_t *data, size_t len)
 #endif
 }
 
-uint16_t Utils::printf(const char *fmt, ...)
+int Utils::printf(const char *fmt, ...)
 {
+    int size = 0;
 #ifdef ZDEBUG
     char buf[128];
-    uint16_t cnt = 0;
     va_list ap;
 
     va_start(ap, fmt);
-    cnt = vsnprintf(buf, 128, fmt, ap);
+    size = vsnprintf(buf, 128, fmt, ap);
     va_end(ap);
-    Serial.print(F("\n[DBG]"));
-    Serial.println(buf);
+    Serial.print(buf);
 #endif
+    return size;
 }

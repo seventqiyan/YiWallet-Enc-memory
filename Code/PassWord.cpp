@@ -1,7 +1,6 @@
 
 #include "PassWord.h"
 #include "UID.h"
-#include "Utils.h"
 #include <EEPROM.h>
 
 PassWord::PassWord()
@@ -12,15 +11,20 @@ PassWord::PassWord()
 
 void PassWord::load(int addr)
 {
-    for (size_t i = 0; i < PASSWORD_LEN; i++) {
+    for (int i = 0; i < PASSWORD_LEN; i++) {
         _data[i] = EEPROM[addr + i];
     }
+    Utils::instance()->printf("PW load at 0x%0X\n", addr);
+    Utils::instance()->dumpBuffer(_data, PASSWORD_LEN);
 }
+
 void PassWord::save(int addr)
 {
-    for (size_t i = 0; i < PASSWORD_LEN; i++) {
+    for (int i = 0; i < PASSWORD_LEN; i++) {
         EEPROM[addr + i] = _data[i];
     }
+    Utils::instance()->printf("PW save at 0x%0X\n", addr);
+    Utils::instance()->dumpBuffer(_data, PASSWORD_LEN);
 }
 
 bool PassWord::setPassWord(uint8_t *data, int len)
@@ -44,11 +48,10 @@ void PassWord::setLen(int len)
 void PassWord::initWithUID(void)
 {
     UID uid;
-
     uid.getID(_data);
     uid.getPIN(_data + DEV_ID_LEN);
 
-    Utils::instance()->printf("initWithUID");
+    Utils::instance()->printf("initWithUID: ");
     Utils::instance()->dumpBuffer(_data, PASSWORD_LEN);    
 }
 

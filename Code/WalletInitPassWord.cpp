@@ -37,12 +37,14 @@ status_t Wallet::initPassword()
                 _aes.initKey(_pw._data);
                 _aes.encrypt(_pwShadow._data);
                 _pwShadow.save(PRM_ADDR_PASSWD);
+                // _pwShadow.load(PRM_ADDR_PASSWD);
 
                 _pwShadow = _pw;
                 _pw.initWithUID();
                 _aes.initKey(_pw._data);
                 _aes.encrypt(_pwShadow._data);
                 _pwShadow.save(PRM_ADDR_PASSWD_SHADOW);
+                // _pwShadow.load(PRM_ADDR_PASSWD_SHADOW);
                 return OK;
             } else {
                 setStep(EW_CRT_PASSWD_DIFF);

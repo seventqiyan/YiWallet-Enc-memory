@@ -1,8 +1,19 @@
-
+/*******************************************************************************
+ *
+ *   Copyright (c) 2018 www.yiwallet.top. All rights reserved.
+ *
+ * @file AES.cpp
+ *
+ * @brief:
+ *     AES加密算法实现，目前仅实现AES128加密算法
+ *
+ * @author Zhaingbo zhaingbo@foxmail.com
+ * @date 19.05.2018
+ *
+ ******************************************************************************/
 #include "AES.h"
-#include "string.h"
 #include <avr/pgmspace.h>
-#include <Arduino.h>
+#include <string.h>
 
 const uint8_t AES::Sbox[256] PROGMEM = {
   /*  0    1    2    3    4    5    6    7    8    9    a    b    c    d    e    f */
@@ -176,21 +187,17 @@ void AES::initKey(const uint8_t* key)
 {
     KeyExpansion(key, w);
 
-    // Serial.println("w =: ");
-    // for (size_t i = 0; i < 11; i++)
-    // {
-    //     for (size_t j = 0; j < 4; j++)
-    //     {
-    //         for (size_t k = 0; k < 4; k++)
-    //         {
-    //             Serial.print(w[i][j][k], HEX);
-    //             Serial.print(" ");
-    //         }
-    //         Serial.print("\n");
-    //     }
-    //     Serial.print("\n");
-    // }    
-    // Serial.print("\n");
+#if 0
+    Utils::instance()->printf("AES::initKey(), w");
+    for (int i = 0; i < 11; i++) {
+        for (int j = 0; j < 4; j++) {
+            Utils::instance()->printf("i = %d, j = %d\n", i, j);
+            Utils::instance()->dumpBuffer(w[i][j], 4);
+            Utils::instance()->printf("\n");
+        }
+        Utils::instance()->printf("\n");
+    }    
+#endif
 }
 
 uint8_t* AES::encrypt(uint8_t* input)

@@ -1,28 +1,35 @@
 /*******************************************************************************
- * 
- * Copyright (c) 2018 
- * 
- * 易钱包 ver0.1
+ *
+ *   Copyright (c) 2018 www.yiwallet.top. All rights reserved.
+ *
+ * @file YiWallet.ino
  * __   _____        __    _ _      _   
  * \ \ / (_) \      / /_ _| | | ___| |_ 
  *  \ V /| |\ \ /\ / / _` | | |/ _ \ __|
  *   | | | | \ V  V / (_| | | |  __/ |_ 
  *   |_| |_|  \_/\_/ \__,_|_|_|\___|\__|
- * 
+ *
+ * @brief:
+ *     易钱包主框架实现。
+ *
+ * @author Zhaingbo zhaingbo@foxmail.com
+ * @date 19.05.2018
+ *
  ******************************************************************************/
 #include "Wallet.h"
 #include "Led.h"
+#include "Key.h"
 
 Wallet wallet;
-Led    led(13);
+Led    led(LED_STATUS_PIN);
 
 void setup() {
+    led.on();
     Serial.begin(115200);
-    while (!Serial) {
-        ;
-    }
+    while (!Serial);
+    wallet.waitFnKeyPress(SYS_BOOT_DELAY_TM);
     wallet_logo();
-    wallet.initSystemParam();
+    wallet.printRecoverMenu();
 }
 
 void loop()
@@ -41,6 +48,6 @@ void wallet_logo()
     Serial.println(F("=         | | | | \\ V  V / (_| | | |  __/ |_       ="));
     Serial.println(F("=         |_| |_|  \\_/\\_/ \\__,_|_|_|\\___|\\__|      ="));
     Serial.println(F("=                                                  ="));
-    Serial.println(F("================ YiWallet (ver 0.3) ================"));
+    Serial.println(F("================ YiWallet (ver 0.6) ================"));
     Serial.println(F(""));
 }

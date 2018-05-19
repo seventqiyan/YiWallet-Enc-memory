@@ -1,7 +1,5 @@
 
 #include "BtcCash.h"
-#include "Utils.h"
-#include <Arduino.h>
 #include <EEPROM.h>
 #include <string.h>
 
@@ -13,19 +11,19 @@ BitCoinCash::BitCoinCash(AES &aes)
 
 void BitCoinCash::load(int addr)
 {
-    for (size_t i = 0; i < BCC_INFO_SIZE; i++) {
+    for (int i = 0; i < BCC_INFO_SIZE; i++) {
         _bcc.data[i] = EEPROM[addr + i];
     }
-    Utils::instance()->printf("BCC load");
+    Utils::instance()->printf("BCC::load(): ");
     Utils::instance()->dumpBuffer(_bcc.data, BCC_INFO_SIZE);
 }
 
 void BitCoinCash::save(int addr)
 {
-    for (size_t i = 0; i < BCC_INFO_SIZE; i++) {
+    for (int i = 0; i < BCC_INFO_SIZE; i++) {
         EEPROM[addr + i] = _bcc.data[i];
     }
-    Utils::instance()->printf("BCC save");
+    Utils::instance()->printf("BCC::save(): ");
     Utils::instance()->dumpBuffer(_bcc.data, BCC_INFO_SIZE);
 }
 

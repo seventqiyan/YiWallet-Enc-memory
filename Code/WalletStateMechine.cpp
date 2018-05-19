@@ -1,10 +1,23 @@
-
+/**************************************************************************
+ *
+ *   Copyright (c) 2018 www.yiwallet.top. All rights reserved.
+ *
+ * @file WalletStateMechine.cpp
+ *
+ * @brief:
+ *     Wallet状态机实现
+ *
+ * @author Zhaingbo zhaingbo@foxmail.com
+ * @date 19.05.2018
+ *
+ *************************************************************************/
 #include "Wallet.h"
 
 void Wallet::execute(void)
 {
     EWState_t state = _state;
     status_t  status;
+
     switch (_state) {
     case WS_CHK_UID_PIN:
         if (checkUID() == OK) {
@@ -44,7 +57,7 @@ void Wallet::execute(void)
 
     case WS_RECOVER:
         if (recoverMode() == OK) {
-            state = WS_NORMAL_USE;
+            state = WS_OVER;
         }
         break;
 

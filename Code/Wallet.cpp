@@ -4,11 +4,9 @@
 
 
 #include "Wallet.h"
-#include "Utils.h"
+#include "Key.h"
 #include <EEPROM.h>
 #include <avr/pgmspace.h>
-
-#define buttonPin                 (2)
 
 /**
  * Wallet implementation
@@ -16,16 +14,63 @@
 Wallet::Wallet(void)
     : _btc(_aes)
 {
-    _step = 0;
-    _prompt = true;
     _trails = 0;
-    _rlen = 0;
-    initSystemParam();
+    _state = WS_MAX;
+    _destory_bcc = false;
+
+    // EEPROM.write(PRM_ADDR_SYS_STATE, WS_CHK_UID_PIN);
+    EWState_t state = (EWState_t)(EEPROM.read(PRM_ADDR_SYS_STATE));
+    if (state != WS_INIT_BCC && state != WS_NORMAL_USE &&
+        state != WS_ERROR) {
+        state = WS_CHK_UID_PIN;
+    }
+
+    // 检查错误状态
+    if (state == WS_ERROR) {
+        int counter = EEPROM.read(PRM_ADDR_SYS_ERRCNT);
+        if (counter < TRIAL_ERROR_TIMES || counter == -1) {
+            state = WS_NORMAL_USE;
+        }
+    }
+    setState(state);
+    if (_state == WS_NORMAL_USE) {
+        // 预加载密码密文
+        for (uint8_t i = 0; i < PASSWORD_LEN; i++) {
+            _pwShadow._data[i] = EEPROM.read(PRM_ADDR_PASSWD + i);
+        }
+        _pwShadow.setLen(PASSWORD_LEN);
+
+        // // 预加载BCC信息密文
+        // for (uint8_t i = 0; i < BCC_INFO_SIZE; i++) {
+        //     _bcc.cash[i] = EEPROM.read(PRM_ADDR_BCC0_0 + i);
+        // }
+    }
+    // waitFnKeyPress();
 }
 
 Wallet::~Wallet(void)
 {
 
+}
+
+void Wallet::waitFnKeyPress(int waitDly)
+{
+    unsigned long wait = millis();
+    Key fnKey(KEY_FN_PIN);
+
+    if (_state == WS_ERROR) {
+        waitDly *= 3;
+    }
+
+    while (millis() <= wait + waitDly) {
+        if (fnKey.isPress() && _state == WS_ERROR) {
+            setState(WS_RECOVER);
+            break;
+        }
+    }
+    Utils::instance()->printf("_state = %d\n", _state);
+    Utils::instance()->printf("_step = %d\n", _step);
+    Utils::instance()->printf("_prompt = %d\n", _prompt);
 }
 
 void Wallet::prompt(const char* const msg[])
@@ -48,6 +93,7 @@ void Wallet::setStep(uint8_t step)
 
 void Wallet::setState(EWState_t state)
 {
+    _destory_bcc = false;
     _state = state;
     if (_state != WS_INIT_PASSWD && _state != WS_OVER && _state != WS_RECOVER) {
         EEPROM.write(PRM_ADDR_SYS_STATE, _state);
@@ -60,44 +106,6 @@ void Wallet::readSerial(void)
 {
     if (Serial.available()) {
         _rlen += Serial.readBytes(_recv+_rlen, RECV_BUF_SIZE-_rlen);
-    }
-}
-
-void Wallet::initSystemParam(void)
-{
-    // EEPROM.write(PRM_ADDR_SYS_STATE, WS_CHK_UID_PIN);
-    _state = (EWState_t)(EEPROM.read(PRM_ADDR_SYS_STATE));
-    if (_state != WS_INIT_BCC && _state != WS_NORMAL_USE &&
-        _state != WS_ERROR) {
-        _state = WS_CHK_UID_PIN;
-    }
-    // 设置buttonPin端口为输入端口
-    pinMode(buttonPin, INPUT);
-
-    // 检查错误状态
-    if (_state == WS_ERROR) {
-        int counter = EEPROM.read(PRM_ADDR_SYS_ERRCNT);
-        if (counter < TRIAL_ERROR_TIMES || counter == -1) {
-            _state = WS_NORMAL_USE;
-        }
-    }
-
-    int buttonState = digitalRead(buttonPin);
-    if (buttonPin && _state == WS_ERROR) {
-        _state = WS_RECOVER;
-    }
-
-    if (_state == WS_NORMAL_USE) {
-        // 预加载密码密文
-        for (uint8_t i = 0; i < PASSWORD_LEN; i++) {
-            _pwShadow._data[i] = EEPROM.read(PRM_ADDR_PASSWD + i);
-        }
-        _pwShadow.setLen(PASSWORD_LEN);
-
-        // // 预加载BCC信息密文
-        // for (uint8_t i = 0; i < BCC_INFO_SIZE; i++) {
-        //     _bcc.cash[i] = EEPROM.read(PRM_ADDR_BCC0_0 + i);
-        // }
     }
 }
 
@@ -114,12 +122,40 @@ void Wallet::incTrailErrorTimes(void)
     EEPROM.write(PRM_ADDR_SYS_ERRCNT, counter);
 }
 
+bool Wallet::checkUID(uint16_t stateTrue, uint16_t stateFalse)
+{
+    if (_rlen) {
+        if (getUID()) {
+            setStep(stateTrue);
+            return true;
+        } else {
+            setStep(stateFalse);
+        }
+    }
+
+    return false;
+}
+
+bool Wallet::checkPIN(uint16_t stateTrue, uint16_t stateFalse)
+{
+    if (_rlen) {
+        if (getPIN()) {
+            setStep(stateTrue);
+            return true;
+        } else {
+            setStep(stateFalse);
+        }
+    }
+
+    return false;
+}
+
 bool Wallet::getUID()
 {
     if (_rlen == 2*DEV_ID_LEN) {
         uint8_t id[DEV_ID_LEN];
         Utils::instance()->strToHex(_recv, _rlen, id);
-        Utils::instance()->printf("getUID()");
+        Utils::instance()->printf("getUID(): ");
         Utils::instance()->dumpBuffer(id, DEV_ID_LEN);
         UID uid;
         return uid.equalID(id);
@@ -133,7 +169,7 @@ bool Wallet::getPIN()
     if (_rlen == 2*DEV_PIN_LEN) {
         uint8_t pin[DEV_PIN_LEN];
         Utils::instance()->strToHex(_recv, _rlen, pin);
-        Utils::instance()->printf("getPIN()");
+        Utils::instance()->printf("getPIN(): ");
         Utils::instance()->dumpBuffer(pin, DEV_PIN_LEN);
         UID uid;
         return uid.equalPIN(pin);
@@ -148,7 +184,7 @@ bool Wallet::getPassword(PassWord &pw)
         pw.initWithUID();
         pw.setLen(_rlen);
         pw.setPassWord(_recv, _rlen);
-        Utils::instance()->printf("getPassword");
+        Utils::instance()->printf("getPassword(): ");
         Utils::instance()->dumpBuffer(pw._data, PASSWORD_LEN);
         return true;
     }
@@ -161,7 +197,7 @@ bool Wallet::checkPassword()
     _pwShadow.load(PRM_ADDR_PASSWD);
     _aes.initKey(_pw._data);
     _aes.decrypt(_pwShadow._data);
-    Utils::instance()->printf("checkPassword");
+    Utils::instance()->printf("checkPassword(): ");
     Utils::instance()->dumpBuffer(_pwShadow._data, PASSWORD_LEN);
     _pwShadow.setLen(_pw._len);
     if (_pw == _pwShadow) {

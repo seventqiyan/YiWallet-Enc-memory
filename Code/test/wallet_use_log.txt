@@ -1,0 +1,35 @@
+====================================================
+=       __   _____        __    _ _      _         =
+=       \ \ / (_) \      / /_ _| | | ___| |_       =
+=        \ V /| |\ \ /\ / / _` | | |/ _ \ __|      =
+=         | | | | \ V  V / (_| | | |  __/ |_       =
+=         |_| |_|  \_/\_/ \__,_|_|_|\___|\__|      =
+=                                                  =
+================ YiWallet (ver 0.3) ================
+
+Please Input the UID(20): **********
+Please Input the PIN(6): ******
+Please init your password (Max.16): 
+Please init your AGAIN password: 
+Please Input your password(Init): 
+Please input your bitcoin_cash(42): 
+Please input your private key(52): 
+System Init OK!!!
+Please Input your password: 
+BTC Cash Info: 
+bitcoincash: 
+qrlaq6kv42vhraqcwhj8hsnflgdwpr8frgy2t9gsf9
+private Key: 
+KwQKjoScnjvwQW7C9qXiFctwY8o93Souy73i15gLM4gXkdQe4uWo
+
+<<<<<<<<<<<<    Thanks for you using!    >>>>>>>>>>>>
+
+
+直脚
+[DBG]UID:
+[DBG]57 35 33 34 33 34 FF 0F 0E 0E 
+[DBG]PIN
+[DBG]90 7A 81 28 78 B7
+
+UID: 573533343334FF0F0E0E
+PIN: 907A812878B7

@@ -1,8 +1,20 @@
-
+/**************************************************************************
+ *
+ *   Copyright (c) 2018 www.yiwallet.top. All rights reserved.
+ *
+ * @file Led.h
+ *
+ * @brief:
+ *     LED驱动接口
+ *
+ * @author Zhaingbo zhaingbo@foxmail.com
+ * @date 19.05.2018
+ *
+ *************************************************************************/
 #ifndef _LED_H_
 #define _LED_H_
 
-#include <Arduino.h>
+#include "Config.h"
 
 class Led
 {
