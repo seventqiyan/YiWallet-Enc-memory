@@ -1,4 +1,16 @@
-
+/**************************************************************************
+ *
+ *   Copyright (c) 2018 www.yiwallet.top. All rights reserved.
+ *
+ * @file PassWord.cpp
+ *
+ * @brief:
+ *     密码类接口实现
+ *
+ * @author Zhaingbo zhaingbo@foxmail.com
+ * @date 21.05.2018
+ *
+ *************************************************************************/
 #include "PassWord.h"
 #include "UID.h"
 #include <EEPROM.h>
@@ -37,7 +49,6 @@ bool PassWord::setPassWord(uint8_t *data, int len)
     for (uint8_t i = 0; i < _len; i++) {
         _data[i] = data[i];
     }
-
 }
 
 void PassWord::setLen(int len)

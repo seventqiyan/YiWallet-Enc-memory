@@ -1,8 +1,17 @@
-/**
- * Project Untitled
- */
-
-
+/**************************************************************************
+ *
+ *   Copyright (c) 2018 www.yiwallet.top. All rights reserved.
+ *
+ * @file Wallet.cpp
+ *
+ * @brief:
+ *     Wallet类定义实现。本文件主要实现了Wallet的通用操作，
+ *     更多接口实现参见Walletxxx.cpp
+ *
+ * @author Zhaingbo zhaingbo@foxmail.com
+ * @date 21.05.2018
+ *
+ *************************************************************************/
 #include "Wallet.h"
 #include "Key.h"
 #include <EEPROM.h>
@@ -18,6 +27,7 @@ Wallet::Wallet(void)
     _state = WS_MAX;
     _destory_bcc = false;
 
+    // !DEBUG: 复位设备状态，主要用于调试使用
     // EEPROM.write(PRM_ADDR_SYS_STATE, WS_CHK_UID_PIN);
     EWState_t state = (EWState_t)(EEPROM.read(PRM_ADDR_SYS_STATE));
     if (state != WS_INIT_BCC && state != WS_NORMAL_USE &&
@@ -35,17 +45,9 @@ Wallet::Wallet(void)
     setState(state);
     if (_state == WS_NORMAL_USE) {
         // 预加载密码密文
-        for (uint8_t i = 0; i < PASSWORD_LEN; i++) {
-            _pwShadow._data[i] = EEPROM.read(PRM_ADDR_PASSWD + i);
-        }
+        _pwShadow.load(PRM_ADDR_PASSWD);
         _pwShadow.setLen(PASSWORD_LEN);
-
-        // // 预加载BCC信息密文
-        // for (uint8_t i = 0; i < BCC_INFO_SIZE; i++) {
-        //     _bcc.cash[i] = EEPROM.read(PRM_ADDR_BCC0_0 + i);
-        // }
     }
-    // waitFnKeyPress();
 }
 
 Wallet::~Wallet(void)
@@ -58,18 +60,20 @@ void Wallet::waitFnKeyPress(int waitDly)
     unsigned long wait = millis();
     Key fnKey(KEY_FN_PIN);
 
+    // TODO: 异常状态下，采用更长的等待时间，与密码试错次数成正比
     if (_state == WS_ERROR) {
-        waitDly *= 3;
+        waitDly *= PASSWD_TRY_LIMITS;
     }
 
+    // 等待Fn按键按下
     while (millis() <= wait + waitDly) {
         if (fnKey.isPress() && _state == WS_ERROR) {
             setState(WS_RECOVER);
             break;
         }
     }
-    Utils::instance()->printf("_state = %d\n", _state);
-    Utils::instance()->printf("_step = %d\n", _step);
+    Utils::instance()->printf("_state  = %d\n", _state);
+    Utils::instance()->printf("_step   = %d\n", _step);
     Utils::instance()->printf("_prompt = %d\n", _prompt);
 }
 

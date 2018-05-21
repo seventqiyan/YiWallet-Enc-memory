@@ -5,7 +5,7 @@
  * @file WalletRecoverMode.cpp
  *
  * @brief:
- *     系统维护模式实现
+ *     Wallet系统维护模式实现
  *
  * @author Zhaingbo zhaingbo@foxmail.com
  * @date 19.05.2018
@@ -113,7 +113,6 @@ status_t Wallet::recoverMode(void)
         break;
     }
 
-
     return NO_ERROR;
 }
 
@@ -127,7 +126,6 @@ void Wallet::printRecoverMenu()
         // Serial.println(F("4. FORMAT device."));
         Serial.println(F("===================================================="));
         Serial.println(F(""));
-        // _prompt = false;
     }
 }
 
