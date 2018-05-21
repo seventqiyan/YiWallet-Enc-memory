@@ -1,4 +1,16 @@
-
+/**************************************************************************
+ *
+ *   Copyright (c) 2018 www.yiwallet.top. All rights reserved.
+ *
+ * @file BtcCash.h
+ *
+ * @brief:
+ *     BCC信息类定义
+ *
+ * @author Zhaingbo zhaingbo@foxmail.com
+ * @date 21.05.2018
+ *
+ *************************************************************************/
 #ifndef _BTC_CASH_
 #define _BTC_CASH_
 
@@ -21,13 +33,6 @@ typedef union bcc_t {
     };
     uint8_t data[BCC_INFO_SIZE];
 } bcc_t;
-
-/**
-    bitcoincash:
-    qrlaq6kv42vhraqcwhj8hsnflgdwpr8frgy2t9gsf9
-    private key:
-    KwQKjoScnjvwQW7C9qXiFctwY8o93Souy73i15gLM4gXkdQe4uWo
- */
 
 class BitCoinCash
 {

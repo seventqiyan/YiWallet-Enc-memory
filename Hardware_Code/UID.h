@@ -1,5 +1,16 @@
-
-
+/**************************************************************************
+ *
+ *   Copyright (c) 2018 www.yiwallet.top. All rights reserved.
+ *
+ * @file UID.h
+ *
+ * @brief:
+ *     UID类定义，主要用于计算对比设备ID与PIN码。
+ *
+ * @author Zhaingbo zhaingbo@foxmail.com
+ * @date 21.05.2018
+ *
+ *************************************************************************/
 #ifndef _UID_H_
 #define _UID_H_
 

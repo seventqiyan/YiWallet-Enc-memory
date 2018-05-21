@@ -1,4 +1,16 @@
-
+/**************************************************************************
+ *
+ *   Copyright (c) 2018 www.yiwallet.top. All rights reserved.
+ *
+ * @file BtcCash.cpp
+ *
+ * @brief:
+ *     BCC信息
+ *
+ * @author Zhaingbo zhaingbo@foxmail.com
+ * @date 21.05.2018
+ *
+ *************************************************************************/
 #include "BtcCash.h"
 #include <EEPROM.h>
 #include <string.h>

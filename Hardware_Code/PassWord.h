@@ -1,4 +1,16 @@
-
+/**************************************************************************
+ *
+ *   Copyright (c) 2018 www.yiwallet.top. All rights reserved.
+ *
+ * @file PassWord.h
+ *
+ * @brief:
+ *     密码类接口定义
+ *
+ * @author Zhaingbo zhaingbo@foxmail.com
+ * @date 21.05.2018
+ *
+ *************************************************************************/
 #ifndef _PASSWORD_H_
 #define _PASSWORD_H_
 
@@ -21,7 +33,7 @@ public:
     PassWord &operator = (const PassWord &);
     friend bool operator==(const PassWord &lhs, const PassWord &rhs);
 
-    // 将Wallet设置为PassWo的友元，以便直接访问其私有数据。
+    // 将Wallet设置为PassWord的友元，以便直接访问其私有数据。
     friend class Wallet;
 
 private:

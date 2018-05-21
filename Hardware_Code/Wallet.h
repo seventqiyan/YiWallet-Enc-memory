@@ -1,8 +1,16 @@
-/**
- * Project Untitled
- */
-
-
+/**************************************************************************
+ *
+ *   Copyright (c) 2018 www.yiwallet.top. All rights reserved.
+ *
+ * @file Wallet.h
+ *
+ * @brief:
+ *     Wallet类接口定义
+ *
+ * @author Zhaingbo zhaingbo@foxmail.com
+ * @date 21.05.2018
+ *
+ *************************************************************************/
 #ifndef _WALLET_H_
 #define _WALLET_H_
 

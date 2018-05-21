@@ -1,4 +1,16 @@
-
+/**************************************************************************
+ *
+ *   Copyright (c) 2018 www.yiwallet.top. All rights reserved.
+ *
+ * @file UID.cpp
+ *
+ * @brief:
+ *     UID类实现
+ *
+ * @author Zhaingbo zhaingbo@foxmail.com
+ * @date 21.05.2018
+ *
+ *************************************************************************/
 #define _UID_C_
 #include "UID.h"
 #include <string.h>
@@ -88,6 +100,7 @@ void UID::calcPIN()
     for (int i = 0; i < DEV_ID_LEN / 2; i += 2) {
         seed = seed ^ ((id[i] << 8) | id[i+1]);
     }
+    // PIN码由系统随机函数生成，其SEED由设备ID与UID_PIN_SEED_MASK。
     seed ^= UID_PIN_SEED_MASK;
     randomSeed(seed);
 

@@ -1,4 +1,16 @@
-
+/**************************************************************************
+ *
+ *   Copyright (c) 2018 www.yiwallet.top. All rights reserved.
+ *
+ * @file WalletNormalMode.cpp
+ *
+ * @brief:
+ *     系统正常使用模式实现
+ *
+ * @author Zhaingbo zhaingbo@foxmail.com
+ * @date 21.05.2018
+ *
+ *************************************************************************/
 #include "Wallet.h"
 #include <EEPROM.h>
 

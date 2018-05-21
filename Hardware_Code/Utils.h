@@ -4,9 +4,17 @@
  *
  * @file Utils.h
  *
- * @brief:
+ * @brief
  *     通用工具实现
- *     该类采用单例模式实现，需使用Utils::instance()->tools()来统一调用
+ *     该类采用单例模式实现，需使用Utils::instance()->tools()来统一调用。
+ * 
+ * @note
+ *     1. strToHex()  -- 将用户字符串转换成HEX模式
+ *     2. getChipID() -- 获取设备ID
+ *     3. checkXor()  -- 计算缓冲区xor值
+ *     4. checnSum()  -- 计算缓冲区sum值
+ *     5. dump()   -- 以HEX模式输出缓冲区内容（启用ZDEBUG有效）
+ *     6. printf() -- 打印调试信息（启用ZDEBUG时有效）
  *
  * @author Zhaingbo zhaingbo@foxmail.com
  * @date 19.05.2018

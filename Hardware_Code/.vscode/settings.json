@@ -1,7 +1,8 @@
 {
     "files.associations": {
-        "*.pde": "c",
         "*.el": "lisp",
+        "*.ino": "cpp",
+        "*.pde": "c",
         "iosfwd": "cpp",
         "xlocale": "cpp",
         "xstring": "cpp",
@@ -11,6 +12,7 @@
         "ios": "cpp",
         "utils.h": "c",
         "xlocnum": "cpp",
-        "stddef.h": "c"
+        "stddef.h": "c",
+        "istream": "cpp"
     }
 }

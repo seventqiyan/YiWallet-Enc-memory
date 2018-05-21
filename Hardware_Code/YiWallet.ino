@@ -39,6 +39,7 @@ void loop()
     led.blink(300);
 }
 
+// 打印系统Logo
 void wallet_logo()
 {
     Serial.println(F("===================================================="));
