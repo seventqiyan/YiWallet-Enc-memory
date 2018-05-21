@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.el": "lisp",
+			"*.ino": "cpp",
+			"*.pde": "c",
+			"iosfwd": "cpp",
+			"xlocale": "cpp",
+			"xstring": "cpp",
+			"ostream": "cpp",
+			"initializer_list": "cpp",
+			"xutility": "cpp",
+			"ios": "cpp",
+			"utils.h": "c",
+			"xlocnum": "cpp",
+			"stddef.h": "c",
+			"istream": "cpp"
+		}
+	}
+}
