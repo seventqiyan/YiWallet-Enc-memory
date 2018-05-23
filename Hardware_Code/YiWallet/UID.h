@@ -25,12 +25,11 @@ public:
     UID();
     ~UID();
 
-    static UID* instance();
-
     // void setID(uint8_t *data);
     // void setPIN(uint8_t *data);
     void getID(uint8_t *data);
     void getPIN(uint8_t *data);
+    void resetUID();
 
     bool equalID(const UID& uid);
     bool equalID(const uint8_t *id);
@@ -40,12 +39,13 @@ public:
     friend bool operator==(const UID &lhs, const UID &rhs);
 
 private:
-    void resetUID();
     void calcPIN();
 
 public:
     uint8_t id[DEV_ID_LEN];
     uint8_t pin[DEV_PIN_LEN];
 };
+
+extern UID g_uid;
 
 #endif /* end of include guard: _UID_H_ */

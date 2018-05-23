@@ -58,9 +58,8 @@ void PassWord::setLen(int len)
 
 void PassWord::initWithUID(void)
 {
-    UID uid;
-    uid.getID(_data);
-    uid.getPIN(_data + DEV_ID_LEN);
+    g_uid.getID(_data);
+    g_uid.getPIN(_data + DEV_ID_LEN);
 
     Utils::instance()->printf("initWithUID: ");
     Utils::instance()->dumpBuffer(_data, PASSWORD_LEN);    

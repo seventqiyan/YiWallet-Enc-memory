@@ -15,7 +15,7 @@
 #include "UID.h"
 #include <string.h>
 
-static UID uid;
+UID g_uid;
 
 UID::UID()
 {
@@ -25,11 +25,6 @@ UID::UID()
 UID::~UID()
 {
 
-}
-
-static UID* UID::instance()
-{
-    return &uid;
 }
 
 // void UID::setID(uint8_t *data)
@@ -54,6 +49,8 @@ void UID::getPIN(uint8_t *data)
 
 bool UID::equalID(const uint8_t *id)
 {
+    Utils::instance()->printf("equalID(): ");
+    Utils::instance()->dumpBuffer(this->id, DEV_ID_LEN);
     for (int i = 0; i < DEV_ID_LEN; i++) {
         if (this->id[i] != id[i]) {
             return false;
@@ -69,6 +66,8 @@ bool UID::equalID(const UID& uid)
 
 bool UID::equalPIN(const uint8_t *pin)
 {
+    Utils::instance()->printf("equalPIN(): ");
+    Utils::instance()->dumpBuffer(this->pin, DEV_PIN_LEN);
     for (int i = 0; i < DEV_PIN_LEN; i++) {
         if (this->pin[i] != pin[i]) {
             return false;

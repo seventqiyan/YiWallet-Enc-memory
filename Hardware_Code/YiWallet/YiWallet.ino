@@ -25,6 +25,12 @@ Led    led(LED_STATUS_PIN);
 
 void setup() {
     led.on();
+    
+    // FIXME: avr/boot提供的设备ID读取方法偶尔读取不一致。
+    g_uid.resetUID();
+    g_uid.resetUID();
+    g_uid.resetUID();
+
     Serial.begin(115200);
     while (!Serial);
     wallet.waitFnKeyPress(SYS_BOOT_DELAY_TM);
@@ -49,6 +55,6 @@ void wallet_logo()
     Serial.println(F("=         | | | | \\ V  V / (_| | | |  __/ |_       ="));
     Serial.println(F("=         |_| |_|  \\_/\\_/ \\__,_|_|_|\\___|\\__|      ="));
     Serial.println(F("=                                                  ="));
-    Serial.println(F("================ YiWallet (ver 0.6) ================"));
+    Serial.println(F("================ YiWallet (ver 0.8) ================"));
     Serial.println(F(""));
 }

@@ -161,8 +161,8 @@ bool Wallet::getUID()
         Utils::instance()->strToHex(_recv, _rlen, id);
         Utils::instance()->printf("getUID(): ");
         Utils::instance()->dumpBuffer(id, DEV_ID_LEN);
-        UID uid;
-        return uid.equalID(id);
+        // g_uid.resetUID();
+        return g_uid.equalID(id);
     }
 
     return false;
@@ -175,8 +175,7 @@ bool Wallet::getPIN()
         Utils::instance()->strToHex(_recv, _rlen, pin);
         Utils::instance()->printf("getPIN(): ");
         Utils::instance()->dumpBuffer(pin, DEV_PIN_LEN);
-        UID uid;
-        return uid.equalPIN(pin);
+        return g_uid.equalPIN(pin);
     }
 
     return false;

@@ -22,7 +22,7 @@
 // #define ZDEBUG 1
 
 // 系统版本
-// #define VER_STR           ("0.4")
+// #define VER_STR           ("0.8")
 // 设备PIN码生成器掩码
 #define UID_PIN_SEED_MASK (0xE83A)
 // 系统启动延时定义（ms）
